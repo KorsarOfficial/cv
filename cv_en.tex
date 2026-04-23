@@ -1,0 +1,149 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage[left=1.4cm, top=1.4cm, right=1.4cm, bottom=1.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+
+\definecolor{accent}{HTML}{333333}
+\definecolor{graytext}{HTML}{666666}
+\definecolor{linkblue}{HTML}{2563EB}
+
+\hypersetup{colorlinks=true,linkcolor=linkblue,urlcolor=linkblue}
+
+\titleformat{\section}{\large\bfseries\color{accent}\uppercase}{}{0em}{}[\vspace{-0.5em}\rule{\textwidth}{0.8pt}]
+\titleformat{\subsection}[runin]{\bfseries}{}{0em}{}[.]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\small\color{graytext}\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+\setlist[itemize]{nosep,leftmargin=1.2em,topsep=1pt}
+
+\newcommand{\entry}[4]{{\textbf{#1}} \hfill {\small\color{graytext}#2}\\{\small #3 \hfill #4}\vspace{2pt}}
+\newcommand{\projentry}[3]{{\textbf{#1}} {\small\color{graytext}| #2} \hfill {\small #3}\\}
+
+\begin{document}
+
+% HEADER
+\begin{center}
+{\LARGE\bfseries Arthur Donskoy}\\[2pt]
+{\normalsize Systems Engineer $\cdot$ Quantitative Engineer $\cdot$ 3D Engine Developer}\\[3pt]
+{\small
+\href{https://github.com/KorsarOfficial}{github.com/KorsarOfficial} $\cdot$
+\href{https://leetcode.com/u/korsarofficial}{leetcode.com/u/korsarofficial} $\cdot$
+\href{https://github.com/KorsarOfficial/cv/blob/main/cv_en.pdf}{CV} $\cdot$
+Astrakhan, Russia
+}
+\end{center}
+
+\vspace{-2pt}
+
+% SKILLS
+\section{Skills}
+
+\begin{tabularx}{\textwidth}{@{}r|X@{}}
+\textbf{\small Languages} & C, C++20, Go, x86 Assembly, Python, JavaScript, ABAP, C\#, MATLAB \\
+\textbf{\small Graphics} & Vulkan API, OpenGL, SDL2, GLFW, Compute Shaders, FMod \\
+\textbf{\small Systems} & AVX2 SIMD, lock-free SPSC, \texttt{alignas(64)} cache-line padding, acquire/release ordering \\
+\textbf{\small Media} & FFmpeg (libavformat, libavcodec, libswscale), LZW compression, GIF89a binary format \\
+\textbf{\small Quant} & Bayesian inference (Beta-Binomial), Kelly criterion, Monte Carlo, EMA/ROC, walk-forward \\
+\textbf{\small Infra} & WebSocket, REST API, Telegram Bot API, SQLite, PostgreSQL, Docker, CMake, Git, Linux \\
+\end{tabularx}
+
+\vspace{-2pt}
+
+% EXPERIENCE
+\section{Experience}
+
+\entry{Quantitative Developer}{Feb 2026 -- Present}{Polyalphia}{Remote}
+\begin{itemize}
+\item Designed algorithmic trading system in Go (20,372 LOC, 131 files, 19 development phases).
+\item Implemented 5 strategies: Mean Reversion (Sharpe 0.438, WR 53\%, \$112K backtest PnL), Momentum (ROC+EMA, $\kappa$=0.25), Probability Fade (random walk arbitrage, velocity filter), Time Decay (WR 85\%+), Longshot Fade (Griffith 1949 bias).
+\item Built Bayesian filter (Beta-Binomial, exp forgetting), Kelly sizing ($f_{\max}$=0.20), hysteresis regime detector.
+\item Architected multi-strategy orchestrator, 2-tier risk mgmt (15\%/25\% exposure, 40\% drawdown halt), WebSocket feeds, market scanner, Telegram bot, web dashboard, SQLite audit trail.
+\end{itemize}
+
+\entry{Systems Programmer (Self-employed)}{Oct 2023 -- Present}{Independent}{Remote}
+\begin{itemize}
+\item Developed KorsEngine: 3D Vulkan engine in pure C (1,381 commits, 148 files, 6.4 MB). PBR rendering, compute shaders, manual memory management via Vulkan allocation model.
+\item Built MP4-to-GIF converter (C++20): 4.3$\times$ speedup (12.0s$\to$2.8s). Wu quantization (3D prefix sums), 32K nearest-color AVX2 cache (118M calls eliminated), Floyd-Steinberg (zero bounds checks), custom LZW compressor (8192-slot hash table), lock-free SPSC (alignas(64)), single-decode caching ($-$56\%). Final: 12\% from theoretical optimum.
+\item Created VideoCutter (C++/FFmpeg/SDL2), Korscord (C++, K-Means++ color clustering), Snake Strategy Battle (C++, A* on torus $\mathbb{Z}/40\mathbb{Z} \times \mathbb{Z}/30\mathbb{Z}$).
+\end{itemize}
+
+\entry{Software Developer (Self-employed)}{Jul 2022 -- Oct 2023}{Independent}{Remote}
+\begin{itemize}
+\item Built robotics control suite (Python/PyQt5) for RM001-M03 via USB/CH341: trajectory presets, device scanning, emulation mode.
+\item Developed GPU-accelerated 2D physics sandbox with Taichi Lang. Unity prototypes (FPS, AR, RTS).
+\end{itemize}
+
+\vspace{-2pt}
+
+% OPEN SOURCE
+\section{Open Source Contributions}
+
+\projentry{Yandex Perforator}{Go, cluster-wide profiler}{7 PRs}
+\begin{itemize}
+\item $O(n){\to}O(\text{miss})$ eBPF syscalls (2-pass LRU+map), data race fix (RLock snapshot), exponential backoff, pre-size allocations, mutex release during Parse.
+\end{itemize}
+
+\projentry{Yandex Yatool}{Python/C++, build toolkit}{5 PRs}
+\begin{itemize}
+\item Startup $-$38ms, CPP\_FAKEID blast radius 82.7\%$\to$35\%, template instantiation $-$118s ($-$64.9\%), critical-path scheduling $-$38.7s ($-$11.8\%), hash map pre-size $-$0.26s.
+\end{itemize}
+
+\projentry{VK KPHP}{PHP/C++, PHP-to-C++ compiler}{4 PRs}
+\begin{itemize}
+\item \texttt{instanceof} unused class fix, \texttt{\_\_clone} parent chain walk, composer classmap autoloading, callback error messages.
+\end{itemize}
+
+\vspace{-2pt}
+
+% EDUCATION
+\section{Education}
+
+\entry{Applied Mathematics and Computer Science}{2025 -- 2029}{Moscow Institute of Physics and Technology (MIPT)}{Remote}
+{\small Department of System Programming (ISP RAS). Bachelor's degree.}
+
+{\small Self-study: Knuth, \textit{The Art of Computer Programming}, Volumes 1--4A.}
+
+\vspace{-2pt}
+
+% COMPETITIONS
+\section{Competitions \& Awards}
+
+\begin{itemize}
+\item \textbf{Smolathon 2025} --- Team Lead, 19th out of 80+ teams. Designed architecture and led development of a web platform for the Regional Center for Road Traffic Organization. Delivered full prototype in 24h on-site final. Responsible for architecture decisions, task decomposition, code review, and final pitch to jury. Part of ``Svoy Kod'' International Youth IT Forum, prize pool 500K RUB.
+\item \textbf{Space Cup: Mission LUNA} --- Developed a lunar base construction planner with terrain analysis, infrastructure placement under safety constraints, and resource monitoring. JavaScript frontend with WebGL visualization, Python backend for terrain data processing.
+\item \textbf{LeetCode} --- 70 problems solved (22 Easy, 34 Medium, 14 Hard). Overall acceptance rate 70.7\%. Hard acceptance rate \textbf{82.4\%} (14/17 submissions accepted on first or second attempt). Focus areas: graphs, dynamic programming, trees, sliding window. Solutions mapped by pattern on \href{https://miro.com/app/board/uXjVGcc9d58=/?share_link_id=838442415695}{Miro decomposition board}.
+\end{itemize}
+
+\vspace{-2pt}
+
+\section{Languages}
+
+\begin{tabularx}{\textwidth}{@{}r|X@{}}
+\textbf{\small Russian} & Native \\
+\textbf{\small English} & Technical reading/writing --- documentation, code, commits, PR descriptions in English. \\
+\end{tabularx}
+
+\vspace{-2pt}
+
+\section{Contact}
+
+\begin{tabularx}{\textwidth}{@{}r|X@{}}
+\textbf{\small Telegram} & @korsarofficial \\
+\textbf{\small GitHub} & \href{https://github.com/KorsarOfficial}{github.com/KorsarOfficial} \\
+\textbf{\small LeetCode} & \href{https://leetcode.com/u/korsarofficial}{leetcode.com/u/korsarofficial} \\
+\end{tabularx}
+
+\end{document}
